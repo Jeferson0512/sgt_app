@@ -1,0 +1,101 @@
+/* ===== Estilos clásicos y layout ===== */
+body {
+    background: #f7f9fc;
+}
+
+/* Navbar fijo */
+.navbar {
+    height: 56px;
+}
+
+/* Sidebar sticky (desktop) y offcanvas (mobile) */
+.sidebar {
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    border-right: 1px solid #e9ecef;
+    background: #fff;
+}
+
+.sidebar .nav-link {
+    color: #334155;
+}
+
+.sidebar .nav-link:hover {
+    background: #f1f5f9;
+}
+
+.sidebar .nav-link .fa-fw {
+    width: 1.25rem;
+}
+
+.sidebar .section-title {
+    letter-spacing: .08em;
+}
+
+/* Chevron rotatorio para colapsables */
+.chev {
+    transition: transform .2s ease;
+}
+
+.chev.rotate {
+    transform: rotate(90deg);
+}
+
+/* Métricas */
+.card-metric .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: .75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Offcanvas simple para móviles */
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        z-index: 1040;
+        left: 0;
+        top: 56px;
+        width: 260px;
+        height: calc(100vh - 56px);
+        transform: translateX(-100%);
+        transition: transform .2s ease-in-out;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    body.offcanvas-active {
+        overflow: hidden;
+    }
+}
+
+.estado-activo {
+  background-color: #FF9300;
+  color: #ffffff;
+}
+.estado-eliminado {
+  background-color: #F44336;
+  color: #ffffff;
+}
+.estado-enprogreso {
+  background-color: #1485FF;
+  color: #ffffff;
+}
+.estado-finalizado {
+  background-color: #004A9B;
+  color: #ffffff;
+}
+.estado-revisado {
+  background-color: #004A9B;
+  color: #ffffff;
+}
+.estado-aprobado {
+  background-color: #0d722e;
+  color: #ffffff;
+}

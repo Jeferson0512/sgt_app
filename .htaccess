@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /sgt_app/
+
+  # No tocar assets o archivos físicos
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Todo lo demás pasa a index.php
+  RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>

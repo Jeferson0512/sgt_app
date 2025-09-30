@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Nuevo Ingreso – Wizard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap 4.3.1 + FontAwesome 5 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<style>
+  .rounded-2xl { border-radius: 1rem; }
+  .step-dot{width:26px;height:26px;border-radius:50%;background:#e9ecef;display:flex;align-items:center;justify-content:center;margin-right:8px}
+  .step.active .step-dot{background:#007bff;color:#fff}
+  .step{margin-right:16px}
+</style>
+</head>
+<body class="bg-light">
+<div class="container-fluid p-4" style="max-width:900px">
+
+  <!-- Toolbar -->
+  <div class="d-flex align-items-center mb-3">
+    <a href="#" class="btn btn-light mr-2 rounded-2xl"><i class="fas fa-chevron-left mr-1"></i> Volver</a>
+    <h4 class="mb-0">Nuevo Ingreso</h4>
+    <span class="badge badge-secondary ml-2">Prototipo</span>
+    <div class="ml-auto d-flex">
+      <button id="btnBorrador" class="btn btn-secondary mr-2 rounded-2xl">Guardar borrador</button>
+      <button form="frmWizard" class="btn btn-primary rounded-2xl"><i class="fas fa-save mr-1"></i> Guardar</button>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="d-flex align-items-center" id="steps">
+      <div class="step active d-flex align-items-center"><div class="step-dot">1</div><strong>Ingreso</strong></div>
+      <div class="step d-flex align-items-center"><div class="step-dot">2</div><strong>Documento</strong></div>
+      <div class="step d-flex align-items-center"><div class="step-dot">3</div><strong>Aportante</strong></div>
+      <div class="step d-flex align-items-center"><div class="step-dot">4</div><strong>Referencia</strong></div>
+    </div>
+    <div>
+      <button id="btnPrev" class="btn btn-outline-secondary rounded-2xl mr-2"><i class="fas fa-chevron-left"></i></button>
+      <button id="btnNext" class="btn btn-outline-secondary rounded-2xl"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <form id="frmWizard">
+    <!-- STEP 1 -->
+    <div class="card mb-3 shadow-sm step-pane" data-step="0">
+      <div class="card-header">Datos del ingreso</div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>Moneda <span class="text-danger">*</span></label>
+            <select class="form-control" name="moneda"><option>PEN</option><option>USD</option><option>EUR</option></select>
+          </div>
+          <div class="form-group col-md-3">
+            <label>Importe <span class="text-danger">*</span></label>
+            <input class="form-control" type="number" step="0.01" name="importe" placeholder="0.00">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Fecha <span class="text-danger">*</span></label>
+            <input class="form-control" type="date" name="fecha">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Tipo Ingreso <span class="text-danger">*</span></label>
+            <select class="form-control" name="tipo_ingreso">
+              <option value="">Seleccione…</option>
+              <option>I_BCP</option><option>I_YAPE</option><option>I_PLIN</option>
+              <option>I_EFECTIVO</option><option>I_TRANSFERENCIA</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-9">
+            <label>Descripción</label>
+            <input class="form-control" name="descripcion">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Tipo Transacción</label>
+            <select class="form-control" name="tipo_transaccion">
+              <option value="">Seleccione…</option>
+              <option>CERTIFICADO DE DONACIÓN</option><option>APORTE</option><option>OTRO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card mb-3 shadow-sm step-pane d-none" data-step="1">
+      <div class="card-header">Documento</div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>N° Documento</label>
+            <input class="form-control" name="nro_documento">
+          </div>
+          <div class="form-group col-md-4">
+            <label>Tipo Documento</label>
+            <select class="form-control" name="tipo_documento">
+              <option value="">Seleccione…</option>
+              <option>CDE</option><option>FAC</option><option>BOL</option><option>REC</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label>N° (correlativo/ref.)</label>
+            <input class="form-control" name="numero">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card mb-3 shadow-sm step-pane d-none" data-step="2">
+      <div class="card-header">Aportante</div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Nombre / Razón Social <span class="text-danger">*</span></label>
+            <input class="form-control" name="nombre">
+          </div>
+          <div class="form-group col-md-3">
+            <label>DNI</label>
+            <input class="form-control" name="dni">
+          </div>
+          <div class="form-group col-md-3">
+            <label>RUC</label>
+            <input class="form-control" name="ruc">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Correo</label>
+            <input class="form-control" name="correo" type="email" placeholder="correo@ejemplo.com">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card mb-3 shadow-sm step-pane d-none" data-step="3">
+      <div class="card-header">Referencia bancaria / campaña</div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>Código</label>
+            <input class="form-control" name="codigo">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Campaña</label>
+            <input class="form-control" name="campania">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Cód. Referencia</label>
+            <input class="form-control" name="cod_referencia">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Operación bancaria</label>
+            <input class="form-control" name="operacion_bancaria">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>N° Cuenta</label>
+            <input class="form-control" name="numero_cuenta">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Info adicional</label>
+            <input class="form-control" name="info_adicional">
+          </div>
+          <div class="form-group col-md-12">
+            <label>Documento (texto)</label>
+            <input class="form-control" name="documento_texto">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script>
+  var step = 0, total = 4;
+  var panes = document.querySelectorAll('.step-pane');
+  var steps = document.querySelectorAll('#steps .step');
+
+  function renderStep(){
+    panes.forEach(function(p,i){ p.classList.toggle('d-none', i!==step); });
+    steps.forEach(function(s,i){
+      s.classList.toggle('active', i===step);
+    });
+    document.getElementById('btnPrev').disabled = (step===0);
+    document.getElementById('btnNext').disabled = (step===total-1);
+  }
+
+  document.getElementById('btnPrev').addEventListener('click', function(){
+    step = Math.max(0, step-1); renderStep();
+  });
+  document.getElementById('btnNext').addEventListener('click', function(){
+    step = Math.min(total-1, step+1); renderStep();
+  });
+
+  document.getElementById('frmWizard').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Guardado (prototipo Wizard).');
+  });
+
+  renderStep();
+</script>
+</body>
+</html>
