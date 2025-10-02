@@ -1,6 +1,22 @@
+:root {
+    --bg: #eff1f5;
+    --card-bg: #fff;
+    --card-radius: 16px;
+    --border-soft: #e6e9ef;
+    --shadow-soft: 0 2px 6px rgba(0, 0, 0, .05), 0 10px 24px rgba(0, 0, 0, .06);
+    --sidebar-bg: #0f172a;
+    --sidebar-txt: #e5e7eb;
+    --sidebar-txt-dim: #aab1bf;
+    --sidebar-hover: #111a2f;
+}
+
 /* ===== Estilos clásicos y layout ===== */
-body {
+/* body {
     background: #f7f9fc;
+} */
+
+body {
+    background: var(--bg);
 }
 
 /* Navbar fijo */
@@ -76,26 +92,31 @@ body {
 }
 
 .estado-activo {
-  background-color: #FF9300;
-  color: #ffffff;
+    background-color: #FF9300;
+    color: #ffffff;
 }
+
 .estado-eliminado {
-  background-color: #F44336;
-  color: #ffffff;
+    background-color: #F44336;
+    color: #ffffff;
 }
+
 .estado-enprogreso {
-  background-color: #1485FF;
-  color: #ffffff;
+    background-color: #1485FF;
+    color: #ffffff;
 }
+
 .estado-finalizado {
-  background-color: #004A9B;
-  color: #ffffff;
+    background-color: #004A9B;
+    color: #ffffff;
 }
+
 .estado-revisado {
-  background-color: #004A9B;
-  color: #ffffff;
+    background-color: #004A9B;
+    color: #ffffff;
 }
+
 .estado-aprobado {
-  background-color: #0d722e;
-  color: #ffffff;
+    background-color: #0d722e;
+    color: #ffffff;
 }

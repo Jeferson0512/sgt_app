@@ -3,7 +3,113 @@
 // var_dump($lista);
 ?>
 <!-- <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/correctivo.css"> -->
+<style>
+    /* Cards y tabla */
+    .card-soft {
+        background: var(--card-bg);
+        border: 1px solid var(--border-soft);
+        border-radius: var(--card-radius);
+        box-shadow: var(--shadow-soft);
+    }
 
+    .metric-label {
+        color: #6b7280;
+        font-size: .85rem;
+        font-weight: 600;
+        margin-bottom: .35rem;
+    }
+
+    .metric-value {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #111827;
+    }
+
+    .metric-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef2ff;
+        color: #4338ca;
+    }
+
+    .table-soft thead th {
+        border-bottom: 1px solid var(--border-soft);
+        color: #111827;
+        font-weight: 700;
+    }
+
+    .table-soft tbody tr {
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    .btn-ghost {
+        border-radius: 999px;
+        padding: .25rem .75rem;
+        font-weight: 600;
+        border: 1px solid var(--border-soft);
+        background: #fff;
+    }
+
+    /* Chips pastel */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: .2rem .6rem;
+        font-size: .78rem;
+        font-weight: 700;
+    }
+
+    .chip-amber {
+        background: #fde68a;
+        color: #8a6b00;
+    }
+
+    .chip-sky {
+        background: #bae6fd;
+        color: #065f85;
+    }
+
+    .chip-emerald {
+        background: #a7f3d0;
+        color: #065f46;
+    }
+
+    .chip-rose {
+        background: #fecdd3;
+        color: #9f1239;
+    }
+
+    .chip-indigo {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .chip-slate {
+        background: #e5e7eb;
+        color: #334155;
+    }
+
+    .text-mono {
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    /* Encabezado sticky dentro del contenedor scroll */
+    .table-responsive {
+        max-height: 56vh;
+    }
+
+    .table-responsive thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+    }
+</style>
 
 <div class="card-soft p-0 mb-3">
     <div class="px-3 py-3 d-flex align-items-center" style="border-bottom:1px solid var(--border-soft);">
