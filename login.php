@@ -5,9 +5,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Login – Clásico Corporativo (Bootstrap 4.3.1)</title>
-  
+
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/global.css">
-  <script>window.BASE_URL = '<?= BASE_URL ?>';</script>
+  <script>
+    window.BASE_URL = '<?= BASE_URL ?>';
+  </script>
   <!-- Bootstrap v4.3.1 (CDN principal) -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- CDN alterno por si el anterior falla (sin SRI) -->
@@ -33,7 +35,7 @@
             <form id="frmLogin" method="post">
               <div class="form-group">
                 <label for="email">Usuario</label>
-                <input type="text" class="form-control bg-dark text-light border-secondary" id="email" name="email" value="admin@sgt.local" required>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="email" name="email" value="jbujaico" required>
               </div>
 
               <div class="form-group">
@@ -95,23 +97,26 @@
     //   }
     // })();
 
-    document.getElementById('frmLogin').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    // console.log(fd.get('email'))
-    // console.log(fd.get('password'))
-    try{
-      const r = await api('app/actions/login_action.php', { method:'POST', body:fd });
-      // r debe ser JSON {ok,msg,data}
-      document.getElementById('msg').textContent = r.msg || '';
-      if(r.ok && r.data?.redirect){
-        location.href = r.data.redirect;
+    document.getElementById('frmLogin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      // console.log(fd.get('email'))
+      // console.log(fd.get('password'))
+      try {
+        const r = await api('app/actions/login_action.php', {
+          method: 'POST',
+          body: fd
+        });
+        // r debe ser JSON {ok,msg,data}
+        document.getElementById('msg').textContent = r.msg || '';
+        if (r.ok && r.data?.redirect) {
+          location.href = r.data.redirect;
+        }
+      } catch (err) {
+        document.getElementById('msg').textContent = 'Error de red';
+        console.error(err);
       }
-    }catch(err){
-      document.getElementById('msg').textContent = 'Error de red';
-      console.error(err);
-    }
-  });
+    });
   </script>
 </body>
 

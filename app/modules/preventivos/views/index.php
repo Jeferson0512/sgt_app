@@ -5,7 +5,7 @@
 
     .layout {
         max-width: 1200px;
-        margin: 40px auto;
+        /* margin: 40px auto; */
         padding: 20px;
         background: #fff;
         border-radius: 10px;
@@ -107,16 +107,25 @@
 
     <!-- Vista Calendario -->
     <div id="vistaCalendario">
+        <h4 class="mb-3">Mantenimientos Preventivos — Calendario</h4>
         <div class="calendar-container mb-3">
+            <!-- <div class="text-left">
+                <span class="chip chip-orange" data-estado="Programado">🟡 Programado</span>
+                <span class="chip chip-blue" data-estado="En Progreso">🔵 En Progreso</span>
+                <span class="chip chip-green" data-estado="Finalizado">🟢 Finalizado</span>
+                <span class="chip chip-purple" data-estado="Revisado">🟣 Revisado</span>
+                <span class="chip chip-gray" data-estado="Aprobado">⚪ Aprobado</span>
+                <span class="chip chip-gray" data-estado="Todos">🔘 Ver Todos</span>
+            </div> -->
+            <div class="chips-bottom">
+                <span class="chip chip-gray" data-estado="Todos">🔘 Ver Todos</span>
+                <span class="chip chip-orange" data-estado="Programado">🟡 Programado</span>
+                <span class="chip chip-blue" data-estado="En Progreso">🔵 En Progreso</span>
+                <span class="chip chip-green" data-estado="Finalizado">🟢 Finalizado</span>
+                <span class="chip chip-purple" data-estado="Revisado">🟣 Revisado</span>
+                <span class="chip chip-gray" data-estado="Aprobado">⚪ Aprobado</span>
+            </div>
             <div id="calendar"></div>
-        </div>
-        <div class="text-center">
-            <span class="chip chip-orange" data-estado="Programado">🟡 Programado</span>
-            <span class="chip chip-blue" data-estado="En Progreso">🔵 En Progreso</span>
-            <span class="chip chip-green" data-estado="Finalizado">🟢 Finalizado</span>
-            <span class="chip chip-purple" data-estado="Revisado">🟣 Revisado</span>
-            <span class="chip chip-gray" data-estado="Aprobado">⚪ Aprobado</span>
-            <span class="chip chip-gray" data-estado="Todos">🔘 Ver Todos</span>
         </div>
     </div>
 
@@ -169,6 +178,71 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal Acción -->
+<div class="modal fade" id="modalAccion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-4">
+            <h5 class="mb-3">Nueva Acción</h5>
+            <form id="formAccion">
+                <div class="form-group">
+                    <label for="tipoAccion">Tipo</label>
+                    <select class="form-control" id="tipoAccion" required>
+                        <option value="programar">Programar Mantenimiento</option>
+                        <option value="iniciar">Iniciar Mantenimiento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sistema</label>
+                    <input type="text" class="form-control" id="sistema" required>
+                </div>
+                <div class="form-group">
+                    <label>Formato</label>
+                    <input type="text" class="form-control" id="formato" required>
+                </div>
+                <div class="group-programar">
+                    <div class="form-group"><label>Fecha Inicio</label><input type="date" class="form-control" id="fechaInicio"></div>
+                    <div class="form-group"><label>Fecha Fin</label><input type="date" class="form-control" id="fechaFin"></div>
+                    <div class="form-group"><label>Duración (días)</label><input type="number" class="form-control" id="duracion" value="1"></div>
+                </div>
+                <div class="group-iniciar" style="display:none;">
+                    <div class="form-group"><label>Fecha del Mantenimiento</label><input type="date" class="form-control" id="fechaUnica"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6"><label>Trabajo</label><input type="text" class="form-control" id="trabajo"></div>
+                    <div class="form-group col-sm-6"><label>Usuario</label><input type="text" class="form-control" id="usuario"></div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Filtros -->
+<div class="modal fade" id="modalFiltros" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-4">
+            <h5 class="mb-3">Filtros</h5>
+            <form id="formFiltros">
+                <div class="form-group"><label>Desde</label><input type="date" class="form-control" id="filtroDesde"></div>
+                <div class="form-group"><label>Hasta</label><input type="date" class="form-control" id="filtroHasta"></div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select class="form-control" id="filtroEstado">
+                        <option value="">Todos</option>
+                        <option>Programado</option>
+                        <option>En Progreso</option>
+                        <option>Finalizado</option>
+                        <option>Revisado</option>
+                        <option>Aprobado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark btn-sm">Aplicar</button>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
     const LS_EVENTS = 'eventos_preventivos';
     const getEventos = () => JSON.parse(localStorage.getItem(LS_EVENTS) || '[]');
@@ -193,6 +267,13 @@
         return data.filter(e => [e.formato, e.trabajo, e.usuario, (e.title || '')].join(' ').toLowerCase().includes(q));
     }
 
+    function renderCalendar() {
+        let data = getEventos();
+        data = filtrarEventos(data);
+        calendar.removeAllEvents();
+        calendar.addEventSource(data);
+    }
+
     function renderTabla() {
         let data = getEventos();
         data = filtrarEventos(data);
@@ -205,13 +286,13 @@
         const view = data.slice(start, end);
 
         const html = view.map(e => `
-    <tr>
-      <td>${e.start||'—'}</td><td>${e.formato||'—'}</td>
-      <td>${(e.title||'').replace(/^(Prog:|Inicio:)\s*/,'')||'—'}</td>
-      <td>${e.trabajo||'—'}</td><td>${e.usuario||'—'}</td>
-      <td><span class="chip ${chipClass(e.estado)}">${e.estado}</span></td>
-      <td class="text-right"><button class="btn btn-sm btn-outline-danger btn-icon" onclick="eliminarEvento('${e.start}','${e.title}')"><i class="fas fa-trash"></i></button></td>
-    </tr>`).join('');
+            <tr>
+            <td>${e.start||'—'}</td><td>${e.formato||'—'}</td>
+            <td>${(e.title||'').replace(/^(Prog:|Inicio:)\s*/,'')||'—'}</td>
+            <td>${e.trabajo||'—'}</td><td>${e.usuario||'—'}</td>
+            <td><span class="chip ${chipClass(e.estado)}">${e.estado}</span></td>
+            <td class="text-right"><button class="btn btn-sm btn-outline-danger btn-icon" onclick="eliminarEvento('${e.start}','${e.title}')"><i class="fas fa-trash"></i></button></td>
+            </tr>`).join('');
         $('#tbody').html(html);
         $('#rangeInfo').text(`Mostrando ${total?(start+1):0}-${end} de ${total}`);
         $('#prevPage').prop('disabled', start === 0);
@@ -230,7 +311,56 @@
         calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
             initialView: 'dayGridMonth',
             locale: 'es',
-            events: getEventos()
+            events: getEventos(), // Usa abreviaturas de días
+            datesSet: function(info) { // Cambiar la primera letra del mes a mayúscula
+                let monthTitle = document.querySelector('.fc-toolbar-title');
+                if (monthTitle) {
+                    monthTitle.textContent = monthTitle.textContent.charAt(0).toUpperCase() + monthTitle.textContent.slice(1);
+                }
+            },
+            dateClick: function(info) {
+                // Abrir modal al hacer clic en un día
+                $('#modalAccion').modal('show');
+
+                // Rellenar la fecha automáticamente
+                $('#fechaInicio').val(info.dateStr);
+                $('#fechaFin').val(info.dateStr);
+                $('#fechaUnica').val(info.dateStr);
+            }, // clic en evento existente
+            eventClick: function(info) {
+                const evento = info.event.extendedProps;
+
+                // Mostrar modal con los datos del evento
+                $('#modalAccion').modal('show');
+                $('#tipoAccion').val(evento.tipo || 'programar').trigger('change');
+                $('#sistema').val(evento.sistema || '');
+                $('#formato').val(evento.formato || '');
+                $('#trabajo').val(evento.trabajo || '');
+                $('#usuario').val(evento.usuario || '');
+                $('#fechaInicio').val(evento.startStr);
+                $('#fechaFin').val(evento.endStr);
+                $('#fechaUnica').val(evento.startStr);
+
+
+
+                // // CUANDO VENGA CON PHPMYADMIN
+                // const evento = info.event;
+
+                // // Abrir modal de edición
+                // $('#modalAccion').modal('show');
+
+                // // Si quieres consultar detalles exactos desde la DB:
+                // $.get('/preventivos/detalle/' + evento.id, function(data) {
+                //     $('#tipoAccion').val(data.tipo).trigger('change');
+                //     $('#sistema').val(data.sistema);
+                //     $('#formato').val(data.formato);
+                //     $('#trabajo').val(data.trabajo);
+                //     $('#usuario').val(data.usuario);
+                //     $('#fechaInicio').val(data.fecha_inicio);
+                //     $('#fechaFin').val(data.fecha_fin);
+                //     $('#fechaUnica').val(data.fecha_inicio);
+                // });
+            }
         });
         calendar.render();
 
@@ -247,6 +377,12 @@
             $(this).addClass('active');
             chip = $(this).data('estado');
             renderTabla();
+            // renderCalendar();
+            //Se usa en vez del renderCalendar()
+            let data = getEventos();
+            if (chip !== 'Todos') data = data.filter(e => e.estado === chip);
+            calendar.removeAllEvents();
+            calendar.addEventSource(data);
         });
 
         // Paginación
